@@ -48,11 +48,17 @@ node {
             archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
         }
     }
-}
-def dockerImage
-stage('build docker') {
-   sh "cp -R src/main/docker target"
-   sh "cp target/*.war  target/docker/"
-   dockerImage = docker.build('baky/koolshe@@','target/docker')
 
+    def dockerImage
+    stage('build docker') {
+        sh "cp -R src/main/docker target/"
+        sh "cp target/*.war target/docker/"
+        dockerImage = docker.build('baky/devops', 'target/docker')
+    }
+
+    stage('publish docker') {
+        docker.withRegistry('https://registry.hub.docker.com', 'baky') {
+            dockerImage.push 'latest'
+        }
+    }
 }
