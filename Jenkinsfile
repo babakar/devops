@@ -51,8 +51,8 @@ node {
 
     def dockerImage
     stage('build docker') {
-        sh "cp -R src/main/docker target/"
-        sh "cp target/*.war target/docker/"
+        sh "sudo cp -R src/main/docker target/"
+        sh "sudo cp target/*.war target/docker/"
         dockerImage = docker.build('baky/devops', 'target/docker')
     }
 
