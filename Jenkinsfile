@@ -57,7 +57,7 @@ node {
     }
 
     stage('publish docker') {
-        docker.withRegistry('https://registry.hub.docker.com', 'baky') {
+        docker.withRegistry('https://registry.hub.docker.com', 'target/docker') {
             dockerImage.push 'latest'
         }
     }
